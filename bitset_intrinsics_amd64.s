@@ -76,10 +76,6 @@ TEXT ·Lzcnt64(SB), NOSPLIT, $0
 //   7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
 //   e:	00 00 
 
-// Is 32 not the correct return for 0 input???
-// The gcc code doesn't check and the function returns
-// garbage
-
 //func Clz32(x uint32) uint32
 TEXT ·Clz32(SB), NOSPLIT, $0
     MOVL    x+0(FP),DI
@@ -97,10 +93,6 @@ Z:  MOVL    $32,ret+8(FP)
 //  10:	48 0f bd c7          	bsr    %rdi,%rax
 //  14:	48 83 f0 3f          	xor    $0x3f,%rax
 //  18:	c3                   	retq   
-
-// Is 64 not the correct return for 0 input???
-// The gcc code doesn't check and the function returns
-// garbage
 
 //func Clz64(x uint64) uint32
 TEXT ·Clz64(SB), NOSPLIT, $0

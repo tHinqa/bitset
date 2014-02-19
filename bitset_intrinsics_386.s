@@ -40,10 +40,6 @@ TEXT ·Lzcnt32(SB), NOSPLIT, $0
 //   5:   83 f0 1f                xor    $0x1f,%eax
 //   8:   c3                      ret
 
-// Is 32 not the correct return for 0 input???
-// The gcc code doesn't check and the function returns
-// garbage
-
 //func Clz32(x uint32) uint32
 TEXT ·Clz32(SB), NOSPLIT, $0
 	MOVL	x+0(FP),CX
