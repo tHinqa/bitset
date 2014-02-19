@@ -8,8 +8,8 @@ package bitset
 
 import (
 	"encoding/json"
-	"math"
 	"math/rand"
+	"runtime"
 	"testing"
 )
 
@@ -45,7 +45,12 @@ func TestBitSetNew(t *testing.T) {
 }
 
 func TestBitSetHuge(t *testing.T) {
-	v := New(uint(math.MaxUint32))
+	var v *BitSet
+	if runtime.GOARCH == "386" { // arm?
+		v = New(1<<31)
+	} else {
+		v = New(1<<32-1)
+	}
 	if v.Test(0) != false {
 		t.Errorf("Unable to make a huge bit set and read its 0th value.")
 	}
