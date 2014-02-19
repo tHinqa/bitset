@@ -67,3 +67,49 @@ TEXT ·Lzcnt64(SB), NOSPLIT, $0
     BYTE $0xf3; BYTE $0x48; BYTE $0x0f; BYTE $0xbd; BYTE $0xC7
     MOVQ    AX, ret+8(FP)
     RET
+
+// CPU independent (compiled without -mlzcnt)
+//0000000000000000 <lz32>:
+//   0:	0f bd c7             	bsr    %edi,%eax
+//   3:	83 f0 1f             	xor    $0x1f,%eax
+//   6:	c3                   	retq   
+//   7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+//   e:	00 00 
+
+// Is 32 not the correct return for 0 input???
+// The gcc code doesn't check and the function returns
+// garbage
+
+//func Clz32(x uint32) uint32
+TEXT ·Clz32(SB), NOSPLIT, $0
+    MOVL    x+0(FP),DI
+    ORL     DI,DI
+    JZ      Z
+    BSRL    DI,AX
+    XORL    $0x1F,AX
+    MOVL    AX, ret+8(FP)
+    RET
+Z:  MOVL    $32,ret+8(FP)
+    RET
+
+// CPU independent (compiled without -mlzcnt)
+//0000000000000010 <lz64>:
+//  10:	48 0f bd c7          	bsr    %rdi,%rax
+//  14:	48 83 f0 3f          	xor    $0x3f,%rax
+//  18:	c3                   	retq   
+
+// Is 64 not the correct return for 0 input???
+// The gcc code doesn't check and the function returns
+// garbage
+
+//func Clz64(x uint64) uint32
+TEXT ·Clz64(SB), NOSPLIT, $0
+    MOVQ    x+0(FP),DI
+    ORQ     DI,DI
+    JZ      Z
+    BSRQ    DI,AX
+    XORL    $0x3F,AX
+    MOVL    AX, ret+8(FP)
+    RET
+Z:  MOVL    $64, ret+8(FP)
+    RET
