@@ -19,7 +19,7 @@
 //func Popcnt32(x uint32) uint32
 TEXT ·Popcnt32(SB), NOSPLIT, $0
 //	POPCNTL	4(SP),AX == POPCNTL x+0(FP),AX
-//	BYTE $0xf3; BYTE $0x0f; BYTE $0xb8;BYTE $0x44;BYTE $0x24;BYTE $0x04
+	BYTE $0xf3; BYTE $0x0f; BYTE $0xb8;BYTE $0x44;BYTE $0x24;BYTE $0x04
 	MOVL	AX, ret+4(FP)
 	RET
 
