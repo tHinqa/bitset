@@ -30,7 +30,8 @@ TEXT ·Popcnt32(SB), NOSPLIT, $0
 //func Lzcnt32(x uint32) uint32
 TEXT ·Lzcnt32(SB), NOSPLIT, $0
 //	LZCNTL	4(SP),AX == LZCNTL  x+0(FP),AX
-	BYTE $0xf3; BYTE $0x0f; BYTE $0xbd;BYTE $0x44;BYTE $0x24;BYTE $0x04
+	BYTE $0xf3; BYTE $0x0f; BYTE $0xbd;BYTE $0x44; BYTE $0x24;BYTE $0x04
+    XORL    $0x1F,AX
 	MOVL	AX, ret+4(FP)
 	RET
 

@@ -109,54 +109,103 @@ func BenchmarkCountAll1(b *testing.B) {
 
 func TestClz32(t *testing.T) {
 	if n := Clz32(0xFFFFFFFF); n != 0 {
-		t.Errorf("Clz32 incorrectly returned %d leading zeroes for 0xFFFFFFFF",n)
+		t.Errorf("Clz32 incorrectly returned %d expected 0",n)
 	}
 }
-
 func TestClz32_2(t *testing.T) {
 	if n := Clz32(1); n != 31 {
-		t.Errorf("Clz32 incorrectly returned %d leading zeroes for 0x1",n)
+		t.Errorf("Clz32 incorrectly returned %d expected 31",n)
 	}
 }
 
 func TestClz32_3(t *testing.T) {
 	if n := Clz32(0); n != 32 {
-		t.Errorf("Clz32 incorrectly returned %d leading zeroes for 0x0",n)
+		t.Errorf("Clz32 incorrectly returned %d expected 32",n)
 	}
 }
 
 func TestClz32_4(t *testing.T) {
 	if n := Clz32(0x0000FFFF); n != 16 {
-		t.Errorf("Clz32 incorrectly returned %d leading zeroes for 0x0000FFFF",n)
+		t.Errorf("Clz32 incorrectly returned %d expected 16",n)
 	}
 }
 
 func TestClz64(t *testing.T) {
 	if n := Clz64(0xFFFFFFFFFFFFFFFF); n != 0 {
-		t.Errorf("Clz64 incorrectly returned %d leading zeroes for 0xFFFFFFFFFFFFFFFF",n)
+		t.Errorf("Clz64 incorrectly returned %d expected 0",n)
 	}
 }
 
 func TestClz64_2(t *testing.T) {
 	if n := Clz64(0); n != 64 {
-		t.Errorf("Clz64 incorrectly returned %d leading zeroes for 0x0",n)
+		t.Errorf("Clz64 incorrectly returned %d expected 64",n)
 	}
 }
 
 func TestClz64_3(t *testing.T) {
 	if n := Clz64(1); n != 63 {
-		t.Errorf("Clz64 incorrectly returned %d leading zeroes for 0x1",n)
+		t.Errorf("Clz64 incorrectly returned %d exoected 63",n)
 	}
 }
 
 func TestClz64_4(t *testing.T) {
 	if n := Clz64(0x0000FFFFFFFFFFFF); n != 16 {
-		t.Errorf("Clz64 incorrectly returned %d leading zeroes for 0x0000FFFFFFFFFFFF",n)
+		t.Errorf("Clz64 incorrectly returned %d expected 16",n)
 	}
 }
 
 func TestClz64_5(t *testing.T) {
 	if n := Clz64(0x00000000FFFFFFFF); n != 32 {
-		t.Errorf("Clz64 incorrectly returned %d leading zeroes for 0x00000000FFFFFFFF",n)
+		t.Errorf("Clz64 incorrectly returned %d expected 32",n)
+	}
+}
+func BenchmarkLz32_1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+	}
+}
+func BenchmarkLz32_2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+	}
+}
+func BenchmarkLz32_3(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+		Clz32(0x1)
+	}
+}
+func BenchmarkLz32_4(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+		Lzcnt32(0x1)
+	}
+}
+func BenchmarkLz64_1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Clz64(0x1)
+		Clz64(0x1)
+		Clz64(0x1)
+		Clz64(0x1)
+		Clz64(0x1)
+		Clz64(0x1)
 	}
 }

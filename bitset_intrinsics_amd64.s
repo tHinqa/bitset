@@ -50,10 +50,14 @@ TEXT ·Popcnt64(SB), NOSPLIT, $0
 //func Lzcnt32(x uint32) uint32
 TEXT ·Lzcnt32(SB), NOSPLIT, $0
     MOVL    x+0(FP),DI
+    ORL     DI,DI
+    JZ      Z1
 //  LZCNTL  DI,AX
     BYTE $0xf3; BYTE $0x0f; BYTE $0xbd;BYTE $0xC7
+    XORL    $0x1F,AX
     MOVL    AX, ret+8(FP)
-    POPQ    BP
+    RET
+Z1: MOVL    $64, ret+8(FP)
     RET
 
 // 0000000000000030 <lz64>:
@@ -63,9 +67,14 @@ TEXT ·Lzcnt32(SB), NOSPLIT, $0
 //func Lzcnt64(x uint64) uint64
 TEXT ·Lzcnt64(SB), NOSPLIT, $0
     MOVQ    x+0(FP),DI
+    ORQ     DI,DI
+    JZ      Z2
 //  LZCNTQ  DI,AX
     BYTE $0xf3; BYTE $0x48; BYTE $0x0f; BYTE $0xbd; BYTE $0xC7
+    XORL    $0x3F,AX
     MOVQ    AX, ret+8(FP)
+    RET
+Z2: MOVL    $64, ret+8(FP)
     RET
 
 // CPU independent (compiled without -mlzcnt)
@@ -80,12 +89,12 @@ TEXT ·Lzcnt64(SB), NOSPLIT, $0
 TEXT ·Clz32(SB), NOSPLIT, $0
     MOVL    x+0(FP),DI
     ORL     DI,DI
-    JZ      Z
+    JZ      Z3
     BSRL    DI,AX
     XORL    $0x1F,AX
     MOVL    AX, ret+8(FP)
     RET
-Z:  MOVL    $32,ret+8(FP)
+Z3: MOVL    $32,ret+8(FP)
     RET
 
 // CPU independent (compiled without -mlzcnt)
@@ -98,10 +107,10 @@ Z:  MOVL    $32,ret+8(FP)
 TEXT ·Clz64(SB), NOSPLIT, $0
     MOVQ    x+0(FP),DI
     ORQ     DI,DI
-    JZ      Z
+    JZ      Z4
     BSRQ    DI,AX
     XORL    $0x3F,AX
     MOVL    AX, ret+8(FP)
     RET
-Z:  MOVL    $64, ret+8(FP)
+Z4: MOVL    $64, ret+8(FP)
     RET
